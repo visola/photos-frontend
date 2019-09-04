@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: photos-frontend
+  labels:
+    app: photos-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: photos-frontend
+  template:
+    metadata:
+      labels:
+        app: photos-frontend
+    spec:
+      containers:
+        - name: photos-frontend-image
+          image: DOCKER_IMAGE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 3
