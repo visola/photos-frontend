@@ -1,0 +1,6 @@
+proxy:
+  - from: /
+    to: http://localhost:3000
+
+  - regexp: /(authenticate/.*|api/v1/.*)
+    to: http://localhost:8080/$1
