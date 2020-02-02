@@ -1,8 +1,13 @@
 #content {
-  margin: 15px 10px 0;
+  margin: 0;
+  padding: 0;
 }
 
 .image-previews {
+  &.dragging {
+    background: #eeffee;
+  }
+
   img {
     box-shadow: 0 0 5px #ccc;
     height: 200px;
@@ -12,6 +17,11 @@
       box-shadow: 0 0 10px #000;
     }
   }
+
+  height: calc(100% - 4em);
+  padding: 10px;
+  width: 100%;
+  transition: all 1s;
 }
 
 .journal-entry-card {
@@ -26,4 +36,16 @@ p.login {
 
 .long input {
   width: 400px;
+}
+
+.ui.card.upload-progress {
+  left: calc(50% - 250px);
+  position: absolute;
+  top: 150px;
+  width: 500px;
+}
+
+.ui.menu {
+  border-radius: 0;
+  margin: 0;
 }
