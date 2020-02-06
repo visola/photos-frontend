@@ -5,9 +5,6 @@ import Collection from './Collection';
 export default class Uploads extends Collection {
   @observable uploadsProgress = 0;
   @observable uploadsTotal = 0;
-  @observable visibleStart = 0;
-  @observable visibleEnd = 0;
-  @observable total = 0;
 
   constructor(security) {
     super();
@@ -20,19 +17,34 @@ export default class Uploads extends Collection {
     this.security = security;
   }
 
+  @action
+  addIfNew(toAdd) {
+    const uploads = this.data;
+    toAdd.forEach((upload) => {
+      const indexOf = this.data.findIndex((u) => u.id === upload.id);
+      if (indexOf >= 0) {
+        return;
+      }
+
+      uploads.push(upload);
+    });
+    uploads.sort((u1, u2) => u1.uploadedAt - u2.uploadedAt);
+    this.data = uploads;
+  }
+
   get baseApi() {
     return '/api/v1/uploads';
   }
 
   @action
-  fetch() {
+  fetch(pageToFetch=this.pageNumber) {
     this.loading++;
-    return axios.get(`${this.baseApi}?pageSize=${this.pageSize}&pageNumber=${this.pageNumber}`)
+    return axios.get(`${this.baseApi}?pageSize=${this.pageSize}&pageNumber=${pageToFetch}`)
       .then((response) => {
         const page = response.data;
         this.totalPages = page.totalPages;
 
-        this.data = [...this.data, ...page.data];
+        this.addIfNew(page.data);
         this.loading--;
         return this;
       })
@@ -55,19 +67,18 @@ export default class Uploads extends Collection {
   }
 
   @action
-  setVisibleRange(start, end) {
-    this.visibleStart = start;
-    this.visibleEnd = end;
-  }
-
-  @action
   uploadFiles(filesToUpload) {
     this.uploads = this.uploads.filter((u) => u.progress !== 100);
     this.uploadsProgress = 0;
 
+    const promises = [];
     filesToUpload.forEach((file) => {
       const upload = { file, progress: 0 };
       this.uploads.push(upload);
+
+      let resolve;
+      const promise = new Promise((r) => resolve = r);
+      promises.push(promise);
 
       const formData = new FormData();
       formData.append("file", file);
@@ -85,12 +96,21 @@ export default class Uploads extends Collection {
           .reduce((t,n) => t + n, 0);
       });
 
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState !== 4) {
+          return;
+        }
+        this.addIfNew([JSON.parse(xhr.response)]);
+        resolve();
+      }
+
       xhr.open('POST', '/api/v1/uploads', true);
 
       xhr.setRequestHeader('Authorization', `Bearer ${this.security.token}`)
       xhr.send(formData);
     });
 
+    Promise.all(promises).then(() => this.fetch(1));
     this.uploadsTotal = 100 * this.uploads.length;
   }
 }
