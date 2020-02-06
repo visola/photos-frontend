@@ -13,9 +13,14 @@ export default class UploadProgress extends React.Component {
 
     return <Card className="upload-progress">
       <Card.Content>
-        <Card.Header>Uploading...</Card.Header>
         <Card.Description>
-          <Progress color='teal' percent={Math.round(100 * uploadsProgress / uploadsTotal)} progress />
+          <Progress
+            color="teal"
+            percent={Math.round(100 * uploadsProgress / uploadsTotal)}
+            size="tiny"
+          >
+            Uploading...
+          </Progress>
         </Card.Description>
       </Card.Content>
     </Card>;

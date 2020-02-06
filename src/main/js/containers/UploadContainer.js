@@ -43,7 +43,7 @@ export default class UploadContainer extends React.Component {
   }
 
   render() {
-    const classes = ["image-previews"];
+    const classes = ["upload-container"];
     if (this.state.dragging) {
       classes.push("dragging");
     }
