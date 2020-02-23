@@ -26,7 +26,6 @@ main() {
   GIT_SHA=$(git rev-parse --short HEAD)
   VERSION=$(cat package.json | jq -r '.version')
   GCP_PROJECT_ID=$1
-  ENVIRONMENT=$2
 
   echo "Git SHA: '$GIT_SHA'"
   echo "Version: '$VERSION'"
