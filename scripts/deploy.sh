@@ -33,16 +33,15 @@ main() {
   echo "GCP Project: '$GCP_PROJECT_ID'"
 
   echo "Building..."
-  # npm run bundle
+  npm run bundle
 
   publish_docker_image photos-frontend
-  # kubectl delete deployment photos-frontend -n photos
-  # deploy_to_kubernetes photos-frontend
+  deploy_to_kubernetes photos-frontend
 }
 
 usage() {
     echo "Usage:"
-    echo "   ./deploy_functions.sh {GCP_PROJECT_ID} {ENVIRONMENT}"
+    echo "   ./deploy_functions.sh {GCP_PROJECT_ID}"
     echo
     echo "  GCP_PROJECT_ID      Google Cloud Project to deploy the function to."
 }
