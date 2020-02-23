@@ -23,7 +23,8 @@ export default class Application extends React.Component {
       <React.Fragment>
         <TopMenu />
         <div id="content">
-          <UploadsPage />
+          <Route exact path="/" component={UploadsPage} />
+          <Route exact path="/uploads" component={UploadsPage} />
         </div>
       </React.Fragment>
     </BrowserRouter>;
