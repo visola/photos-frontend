@@ -3,7 +3,17 @@ proxy:
     to: http://localhost:3500
 
 upstreams:
-  photos-backend:
+  photos-local-frontend:
+    static:
+      - from: /
+        to: /Users/visola/git/photos-frontend/dist
+
+  photos-backend-local:
     proxy:
       - regexp: /(authenticate/.*|api/v1/.*)
         to: http://localhost:8080/$1
+
+  photos-backend-dev:
+    proxy:
+      - regexp: /(authenticate/.*|api/v1/.*)
+        to: https://photos-dev.vinnieapps.com/$1

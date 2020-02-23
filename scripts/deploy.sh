@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 deploy_to_kubernetes() {
   project_name=$1
   publish_docker_image=gcr.io/$GCP_PROJECT_ID/$project_name/$GIT_SHA
@@ -15,7 +17,7 @@ publish_docker_image() {
   publish_docker_image=gcr.io/$GCP_PROJECT_ID/$project_name/$GIT_SHA
 
   echo "Building and publishing image for $project_name: $publish_docker_image"
-  docker build -t $docker_image --build-arg JAR_FILE=build/libs/$project_name-$VERSION.jar .
+  docker build --build-arg CACHEBUST=$(date +%s) -t $docker_image .
   docker tag $docker_image $publish_docker_image
   docker push $publish_docker_image
 }
@@ -32,8 +34,8 @@ main() {
   echo "Building..."
   npm run bundle
 
-  publish_docker_image 'photos-frontend'
-  deploy_to_kubernetes 'photos-frontend'
+  publish_docker_image photos-frontend
+  deploy_to_kubernetes photos-frontend
 }
 
 usage() {
