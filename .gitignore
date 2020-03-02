@@ -2,6 +2,5 @@
 dist/
 google-key.json
 node_modules/
-package.json.backup
 .version
 .vscode/

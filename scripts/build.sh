@@ -11,7 +11,12 @@ VERSION=$(cat .version)
 ls -la
 
 echo "Building version $VERSION"
-sed -i '.backup' "s/0.0.0/$VERSION/" ./package.json
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' -e "s/0.0.0/$VERSION/" ./package.json
+else
+  sed -i -e "s/0.0.0/$VERSION/" ./package.json
+fi
 
 npm install
 npm run bundle
