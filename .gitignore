@@ -1,4 +1,6 @@
 .cache/
 dist/
+google-key.json
 node_modules/
+.version
 .vscode/
