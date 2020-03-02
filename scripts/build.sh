@@ -11,7 +11,7 @@ VERSION=$(cat .version)
 ls -la
 
 echo "Building version $VERSION"
-sed -i '' -e "s/0.0.0/$VERSION/" ./package.json
+sed -i '.backup' "s/0.0.0/$VERSION/" ./package.json
 
 npm install
 npm run bundle
