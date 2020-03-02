@@ -7,7 +7,11 @@ else
 fi
 
 VERSION=$(cat .version)
-sed -i '' -e "s/0.0.0/$VERSION/" package.json
+
+ls -la
+
+echo "Building version $VERSION"
+sed -i '' -e "s/0.0.0/$VERSION/" ./package.json
 
 npm install
 npm run bundle
