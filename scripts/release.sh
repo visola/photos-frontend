@@ -27,12 +27,12 @@ main() {
   echo "GCP Project: '$GCP_PROJECT_ID'"
 
   # Login to Docker
-  openssl aes-256-cbc -K $encrypted_bc40a34dabb2_key -iv $encrypted_bc40a34dabb2_iv -in google-key.json.enc -out google-key.json -d
+  openssl aes-256-cbc -K $encrypted_55ff56cacfe0_key -iv $encrypted_55ff56cacfe0_iv -in google-key.json.enc -out google-key.json -d
   cat google-key.json | docker login -u _json_key --password-stdin https://gcr.io
 
   publish_docker_image 'photos-frontend'
 
-  scripts/semantic-release -travis-com -slug VinnieApps/photos
+  scripts/semantic-release -travis-com -slug VinnieApps/photos-frontend
 
   trigger_deploy_in_dev
 }
