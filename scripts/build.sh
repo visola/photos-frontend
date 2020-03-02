@@ -1,11 +1,13 @@
 #!/bin/bash -e
 
-VERSION=$(cat .version)
-
-if [ ! -z "$GITHUB_TOKEN" ]; then
+if [ -z "$GITHUB_TOKEN" ]; then
+  echo -n '0.0.0' > .version
+else
   scripts/semantic-release -travis-com -noci -dry -vf -slug VinnieApps/photos-frontend
-  sed -i -e "s/0.0.0/$VERSION/" package.json
 fi
+
+VERSION=$(cat .version)
+sed -i '' "s/0.0.0/$VERSION/" package.json
 
 npm install
 npm run bundle
