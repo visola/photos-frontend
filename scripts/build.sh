@@ -8,8 +8,6 @@ fi
 
 VERSION=$(cat .version)
 
-ls -la
-
 echo "Building version $VERSION"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
