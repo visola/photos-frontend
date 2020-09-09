@@ -1,0 +1,44 @@
+name: Continuous Integration/Delivery
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Fetch CI/CD Tool
+        run: |
+          curl -L -o cicd.zip https://github.com/VinnieApps/cicd-toolbox/releases/latest/download/cicd_linux_amd64.zip \
+            && unzip -d cicd-dir cicd.zip \
+            && cp cicd-dir/cicd cicd
+
+      - name: Calculate Next Version
+        run: |
+          ./cicd semantic-release version-file vinnieapps/photos-frontend
+          cat .version
+
+      - name: Build
+        run: npm run bundle
+
+      - name: Package
+        run: tar -czf photos-frontend.tar.gz dist/*
+
+      - name: Release Jar
+        if: github.ref == 'refs/heads/main'
+        run: |
+          VERSION=$(cat .version)
+
+          ./cicd semantic-release publish-release vinnieapps/photos-frontend \
+            --github-token ${{ secrets.GITHUB_TOKEN }} \
+            --upload photos-frontend.tar.gz
