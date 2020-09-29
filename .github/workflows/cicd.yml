@@ -34,7 +34,7 @@ jobs:
           npm run bundle
 
       - name: Package
-        run: tar -czf photos-frontend.tar.gz dist/*
+        run: pushd dist && tar -cvzf ../photos-frontend.tar.gz * && popd
 
       - name: Release Package
         if: github.ref == 'refs/heads/main'
