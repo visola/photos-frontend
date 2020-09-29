@@ -34,7 +34,7 @@ jobs:
       - name: Package
         run: tar -czf photos-frontend.tar.gz dist/*
 
-      - name: Release Jar
+      - name: Release Package
         if: github.ref == 'refs/heads/main'
         run: |
           VERSION=$(cat .version)
