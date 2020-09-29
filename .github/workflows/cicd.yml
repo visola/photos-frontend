@@ -29,7 +29,9 @@ jobs:
           cat .version
 
       - name: Build
-        run: npm run bundle
+        run: |
+          npm install
+          npm run bundle
 
       - name: Package
         run: tar -czf photos-frontend.tar.gz dist/*
