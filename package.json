@@ -9,7 +9,7 @@
     "@uppy/core": "^1.13.2",
     "@uppy/drag-drop": "^1.4.19",
     "axios": "^0.21.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mixin-deep": ">=1.3.2",
     "mobx": "^5.15.7",
     "mobx-react": "^6.3.0",
