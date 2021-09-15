@@ -18,7 +18,7 @@
     "react-router-dom": "^5.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.3",
-    "set-value": "^3.0.2"
+    "set-value": "^4.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.11.5",
